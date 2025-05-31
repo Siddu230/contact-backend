@@ -1,10 +1,10 @@
 const express = require('express');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS for all origins (or specify your frontend origin)
-app.use(cors()); // This allows requests from all origins
+// Enable CORS
+app.use(cors());
 
 // Middleware to parse JSON and URL-encoded form data
 app.use(express.json());
@@ -13,9 +13,20 @@ app.use(express.urlencoded({ extended: true }));
 // In-memory array to store form submissions
 let formSubmissions = [];
 
+// Root route for GET requests
+app.get('/', (req, res) => {
+    res.status(200).send('Welcome to the Contact Form Backend! Use POST /submit-form to submit data or GET /submissions to view submissions.');
+});
+
 // POST endpoint to handle form submissions
 app.post('/submit-form', (req, res) => {
     const { name, email, message } = req.body;
+
+    // Log the received data to the console
+    console.log('Received form submission:');
+    console.log('Name:', name);
+    console.log('Email:', email);
+    console.log('Message:', message);
 
     // Basic validation to ensure all fields are present
     if (!name || !email || !message) {
@@ -27,7 +38,11 @@ app.post('/submit-form', (req, res) => {
 
     // Send a success response
     res.status(200).json({ success: true, message: 'Form submitted successfully' });
-    console.log('Form submission received:', { name, email, message });
+});
+
+// GET endpoint to retrieve all form submissions
+app.get('/submissions', (req, res) => {
+    res.status(200).json(formSubmissions);
 });
 
 // Start the server
