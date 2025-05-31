@@ -27,6 +27,7 @@ app.post('/submit-form', (req, res) => {
 
     // Send a success response
     res.status(200).json({ success: true, message: 'Form submitted successfully' });
+    console.log('Form submission received:', { name, email, message });
 });
 
 // Start the server
