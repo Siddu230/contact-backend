@@ -1,6 +1,10 @@
 const express = require('express');
+const cors = require('cors'); // Import the cors package
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Enable CORS for all origins (or specify your frontend origin)
+app.use(cors()); // This allows requests from all origins
 
 // Middleware to parse JSON and URL-encoded form data
 app.use(express.json());
